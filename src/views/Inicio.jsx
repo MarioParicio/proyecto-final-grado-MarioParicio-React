@@ -2,6 +2,6 @@
 
 export default function Inicio() {
   return (
-    <div>Inicio</div>
+    <div>Bienvenido mi rey :)</div>
   )
 }
