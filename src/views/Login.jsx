@@ -16,10 +16,10 @@ export default function Login() {
     try {
       await auth.signInWithEmailAndPassword(email, password);
       // Redirect the user to the desired route after successful login
-      navigate("/auth/register"); // R
+      navigate("/home"); // R
     } catch (error) {
       // Handle login errors here
-      <Link to="/auth/register"/>
+    
       console.error(error);
     }
   };
