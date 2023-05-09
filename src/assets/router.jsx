@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Layout from '../layout/Layout';
 import AuthLayout from '../layout/AuthLayout';
 import Inicio from '../views/Inicio';
@@ -8,39 +8,31 @@ import Registro from '../views/Registro';
 
 
 
+
 const router = createBrowserRouter([
     {
-         path : '/',
-         element : <Layout />,
-            children : [
-                {
-                    index : true,
-                    element: <Inicio/>
-                }
-            ]
-
+      path: '/',
+      element: <Navigate to="/auth/login" />,
     },
     {
-        path : '/auth',
-        element : <AuthLayout />,
-              children : [{
-                    path : '/auth/register',
-                    element: <Registro/>
-              },
-              {
-                path : '/auth/login',
-                index : true,
-                element : <Login />
-              }
-            ]
-    },  
+      path: '/auth',
+      element: <AuthLayout />,
+      children: [
+        {
+          path: 'register',
+          element: <Registro />,
+        },
+        {
+          path: 'login',
+          index: true,
+          element: <Login />,
+        },
+      ],
+    },
     {
-        path : '/home',
-        element : <Inicio />,
-              
-    },    
+      path: '/home',
+      element: <Inicio />,
+    },
+  ]);
   
-        
-])
-
-export default router;
+  export default router;
