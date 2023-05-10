@@ -12,7 +12,8 @@ import Registro from '../views/Registro';
 const router = createBrowserRouter([
     {
       path: '/',
-      element: <Navigate to="/auth/login" />,
+     // element: <Navigate to="/auth/login" />,
+        element: <Layout />,
     },
     {
       path: '/auth',
