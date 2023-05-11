@@ -4,6 +4,8 @@ import AuthLayout from '../layout/AuthLayout';
 import Inicio from '../views/Inicio';
 import Login from '../views/Login'
 import Registro from '../views/Registro';
+import Sidebar from '../components/Sidebar';
+import Resumen from '../components/Resumen';
 
 
 
@@ -14,7 +16,19 @@ const router = createBrowserRouter([
       path: '/',
      // element: <Navigate to="/auth/login" />,
         element: <Layout />,
+        children: [
+          {
+           
+            element: <Sidebar />,
+          },
+          {
+          
+       
+            element: <Resumen />,
+          },
+        ],
     },
+    
     {
       path: '/auth',
       element: <AuthLayout />,
