@@ -1,7 +1,7 @@
+import React from 'react'
 
-function Resumen() {
+export default function resumen() {
   return (
     <div className="md:w-72">resumen</div>
   )
 }
-export default Resumen
