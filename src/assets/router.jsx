@@ -4,7 +4,7 @@ import AuthLayout from '../layout/AuthLayout';
 import Inicio from '../views/Inicio';
 import Login from '../views/Login'
 import Registro from '../views/Registro';
-import Sidebar from '../components/Sidebar';
+
 import Resumen from '../components/Resumen';
 
 
@@ -18,13 +18,16 @@ const router = createBrowserRouter([
         element: <Layout />,
         children: [
           {
-           
-            element: <Sidebar />,
+            path: '/inicio',
+            element: <Inicio />,
           },
           {
-          
-       
+            path: '/resumen',
             element: <Resumen />,
+          },
+          {
+            path: '/',
+            element: <Navigate to="/inicio" replace />,
           },
         ],
     },
