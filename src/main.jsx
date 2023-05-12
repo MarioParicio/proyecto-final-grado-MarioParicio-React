@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
-import {BocateriaProvider} from './context/BocateriaProvider'
+import BocateriaProvider from './context/BocateriaProvider'
+
 import './index.css'
 import router from './assets/router'
 
