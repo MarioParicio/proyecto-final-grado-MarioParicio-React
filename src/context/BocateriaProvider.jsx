@@ -1,23 +1,22 @@
-import { createContext } from "react"
+import { createContext} from "react";
 
-const BocateriaContext = createContext()
-
+const BocateriaContext = createContext();
 
 const BocateriaProvider = ({children}) => {
+    const autenticado = true;
 
     return (
         <BocateriaContext.Provider
             value={{
+                 autenticado 
 
+            }}
+        >
+        {children}    </BocateriaContext.Provider>
 
-               }}
-
-        
-        >{children}</BocateriaContext.Provider>
     )
 }
-
 export {
-    BocateriaContext
+    BocateriaProvider
 }
-export default BocateriaProvider
+export default BocateriaContext;

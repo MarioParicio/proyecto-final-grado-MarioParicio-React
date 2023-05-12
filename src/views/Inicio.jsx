@@ -1,7 +1,11 @@
 import Producto from "../components/Producto"
 import { productos } from "../data/productos"
+import useBocateria from "../hooks/useBocateria"
 
 export default function Inicio() {
+
+  const autenticado = useBocateria()
+  console.log(autenticado)
 
   console.log(productos)
   return (
