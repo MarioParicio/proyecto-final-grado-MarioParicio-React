@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-
+import Resumen from '../components/Resumen';
 import Layout from '../layout/Layout';
 import AuthLayout from '../layout/AuthLayout';
 import Inicio from '../views/Inicio';
@@ -21,7 +21,10 @@ const router = createBrowserRouter([
             path: '/inicio',
             element: <Inicio />,
           },
-
+          {
+            path: '/resumen',
+            element: <Resumen />,
+          },
           {
             path: '/',
             element: <Navigate to="/inicio" replace />,
