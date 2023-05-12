@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function resumen() {
+export default function Resumen() {
   return (
     <div className="md:w-72">resumen</div>
   )
