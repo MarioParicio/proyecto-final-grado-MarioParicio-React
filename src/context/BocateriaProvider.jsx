@@ -3,9 +3,21 @@ import { createContext } from "react"
 const BocateriaContext = createContext()
 
 
-const BocateriaProvider = () => {
+const BocateriaProvider = ({children}) => {
 
     return (
-        null
+        <BocateriaContext.Provider
+            value={{
+
+
+               }}
+
+        
+        >{children}</BocateriaContext.Provider>
     )
 }
+
+export {
+    BocateriaContext
+}
+export default BocateriaProvider
