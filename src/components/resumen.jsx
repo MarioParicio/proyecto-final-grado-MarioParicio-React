@@ -1,6 +1,6 @@
 
 export default function Resumen() {
   return (
-    <div className="md:w-72">resssumen</div>
+    <div className="md:w-72">resumen</div>
   )
 }
