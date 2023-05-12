@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import Resumen from '@/components/Resumen.jsx';
+import Resumen from '@components/Resumen';
 import Layout from '../layout/Layout';
 import AuthLayout from '../layout/AuthLayout';
 import Inicio from '../views/Inicio';
