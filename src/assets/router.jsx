@@ -4,7 +4,6 @@ import AuthLayout from '../layout/AuthLayout';
 import Inicio from '../views/Inicio';
 import Login from '../views/Login'
 import Registro from '../views/Registro';
-
 import Resumen from '../components/Resumen';
 
 
