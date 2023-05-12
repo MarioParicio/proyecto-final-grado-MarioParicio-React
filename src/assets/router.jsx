@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-
+import Resumen from '../components/Resumen';
 import Layout from '../layout/Layout';
 import AuthLayout from '../layout/AuthLayout';
 import Inicio from '../views/Inicio';
@@ -12,22 +12,24 @@ import Registro from '../views/Registro';
 
 
 const router = createBrowserRouter([
-    {
-      path: '/',
-     // element: <Navigate to="/auth/login" />,
-        element: <Layout />,
-        children: [
-          {
-            path: '/inicio',
-            element: <Inicio />,
-          },
-
-          {
-            path: '/',
-            element: <Navigate to="/inicio" replace />,
-          },
-        ],
-    },
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      {
+        path: '/inicio',
+        element: <Inicio />,
+      },
+      {
+        path: '/resumen',
+        element: <Resumen />,
+      },
+      {
+        path: '/',
+        element: <Inicio />,
+      },
+    ],
+  },
     
     {
       path: '/auth',
