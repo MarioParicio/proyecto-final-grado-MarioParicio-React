@@ -1,6 +1,8 @@
-import { categorias } from "../data/categorias"
+import useBocateria from "../hooks/useBocateria"
 import Categoria from "./Categoria"
 export default function Sidebar() {
+
+   const {categorias} = useBocateria()
   return (
     <aside className="md:w-72">
 

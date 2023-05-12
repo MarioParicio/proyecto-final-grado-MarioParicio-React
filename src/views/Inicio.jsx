@@ -4,13 +4,12 @@ import useBocateria from "../hooks/useBocateria"
 
 export default function Inicio() {
 
-  const autenticado = useBocateria()
-  console.log(autenticado)
+  const {categoriaActual} = useBocateria()
+  console.log(categoriaActual)
 
-  console.log(productos)
   return (
     <>
-      <h1 className="text-4xl font-black">Inicio</h1>
+      <h1 className="text-4xl font-black md:mx-5">{categoriaActual.nombre}</h1>
         <p className="text-2xl my-10">Elige y personaliza tu pedido a continuación</p>
 
 
