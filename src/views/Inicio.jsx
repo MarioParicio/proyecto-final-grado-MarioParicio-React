@@ -1,11 +1,12 @@
 import Producto from "../components/Producto"
-import { productos } from "../data/productos"
+import { productos as data } from "../data/productos"
 import useBocateria from "../hooks/useBocateria"
 
 export default function Inicio() {
 
   const {categoriaActual} = useBocateria()
-  console.log(categoriaActual)
+  const productos = data.filter(producto => producto.categoria_id === categoriaActual.id)
+  console.log(productos)
 
   return (
     <>
