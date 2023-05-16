@@ -7,7 +7,9 @@ const BocateriaProvider = ({children}) => {
     const [categoriaActual, setCategoriaActual] = useState(categorias[0])
 
     const handleClickCategoria = id => {
-        console.log(id)
+        const categoria = categorias.filter(categoria => categoria.id === id)[0]
+        setCategoriaActual(categoria)
+        
     }
 
 
