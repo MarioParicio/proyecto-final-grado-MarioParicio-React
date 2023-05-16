@@ -6,6 +6,7 @@ const BocateriaProvider = ({children}) => {
     const [categorias, setCategorias] = useState(CategoriasBD)
     const [categoriaActual, setCategoriaActual] = useState(categorias[0])
     const [modal, setModal] = useState(false)
+    const [producto, setProducto] = useState({})
 
     const handleClickCategoria = id => {
         const categoria = categorias.filter(categoria => categoria.id === id)[0]
@@ -15,7 +16,9 @@ const BocateriaProvider = ({children}) => {
     const handleClickModal = () => {
         setModal(!modal)
     }
-
+    const handleSetProducto = producto => {
+        setProducto(producto)
+    }
 
     console.log(categoriaActual)
 
@@ -31,7 +34,9 @@ const BocateriaProvider = ({children}) => {
                 categoriaActual,
                 handleClickCategoria,
                 modal,
-                handleClickModal
+                handleClickModal,
+                producto,
+                handleSetProducto
 
             }}
         >

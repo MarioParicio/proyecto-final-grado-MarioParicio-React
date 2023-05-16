@@ -3,7 +3,7 @@ import useBocateria from "../hooks/useBocateria";
 
 function Producto({ producto}) {
     
-    const {handleClickModal} = useBocateria() 
+    const {handleClickModal, handleSetProducto} = useBocateria() 
     const { nombre, imagen, precio } = producto
   return (
     <div className="border p-3 shadow bg-white">
@@ -22,7 +22,11 @@ function Producto({ producto}) {
             <button
                 type="button"
                 className="bg-indigo-600 hover:bg-indigo-800  text-white w-full p-3  mt-5 uppercase font-bold"
-                onClick={() => handleClickModal(producto)}
+                onClick={() => {
+                    handleClickModal();
+                    handleSetProducto(producto);
+                }
+            }
 
             >
                 Agregar

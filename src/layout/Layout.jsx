@@ -1,5 +1,6 @@
 import  {Outlet} from 'react-router-dom';
 import Modal from 'react-modal';
+import ModalProducto from '../components/ModalProducto';
 
 import useBocateria from "../hooks/useBocateria";
 
@@ -17,7 +18,7 @@ const customStyles = {
     transform: "translate(-50%, -50%)",
   },
 };
-
+//Modal.setAppElement("#root");
 export default function Layout() {
 
   const {modal, handleClickModal} = useBocateria()
@@ -38,15 +39,15 @@ export default function Layout() {
 
 
     </div>
-    {modal && (
-      <Modal isOpen={modal} style={customStyles} ariaHideApp={false} onRequestClose={() => {}} >
+   (
+      <Modal isOpen={modal} style={customStyles} >
 
-        <p>Desde Modal</p>
-        <button onClick={handleClickModal}>Cerrar</button>
+            <ModalProducto />
+       
       </Modal>
 
 
-      )}
+      )
         
         </>
   )
