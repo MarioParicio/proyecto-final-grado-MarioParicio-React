@@ -1,4 +1,4 @@
-import { createContext, useState} from "react";
+import { createContext, useState, useEffect} from "react";
 import { toast } from "react-toastify";
 import { categorias as CategoriasBD } from "../data/categorias";
 const BocateriaContext = createContext();
@@ -9,6 +9,8 @@ const BocateriaProvider = ({children}) => {
     const [modal, setModal] = useState(false)
     const [producto, setProducto] = useState({})
     const [pedido, setPedido] = useState([])
+    const [total, setTotal] = useState(0)
+
     const handleClickCategoria = id => {
         const categoria = categorias.filter(categoria => categoria.id === id)[0]
         setCategoriaActual(categoria)
@@ -42,6 +44,10 @@ const BocateriaProvider = ({children}) => {
         setPedido(pedidoEliminar)
         toast.success('Producto eliminado del pedido')
     }
+    useEffect(() => {
+        const nuevoTotal = pedido.reduce((acumulador, producto) => acumulador + producto.precio * producto.cantidad, 0)
+        setTotal(nuevoTotal)
+    }, [pedido])
 
     return (
         <BocateriaContext.Provider
@@ -56,8 +62,8 @@ const BocateriaProvider = ({children}) => {
                 pedido,
                 handleAgregarPedido,
                 handleEditarCantidad,
-                handleEliminarProducto
-
+                handleEliminarProducto,
+                total
             }}
         >
         {children}    </BocateriaContext.Provider>
