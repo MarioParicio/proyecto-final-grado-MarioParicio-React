@@ -4,12 +4,16 @@ import useBocateria from "../hooks/useBocateria"
 import { formatearDinero } from "../helpers"
 export default function ModalProducto() {
 
-    const  {producto,handleClickModal, handleAgregarPedido } = useBocateria()
+    const  {producto,handleClickModal, handleAgregarPedido, pedido } = useBocateria()
     const [cantidad, setCantidad] = useState(1)
+    const [edicion, setEdicion] = useState(false)   
 
     useEffect(() => {
-        
-    }, [])
+        if(pedido.some(pedidoState => pedidoState.id === producto.id)){
+            const {cantidad} = pedido.find(pedidoState => pedidoState.id === producto.id)
+            setCantidad(cantidad)}
+            setEdicion(true)
+    }, [pedido])
   return (
     <div className="md:flex gap-10">
         <div className="md:w-1/3">
@@ -74,8 +78,8 @@ export default function ModalProducto() {
             }
             }
                 >
-                Añadir al pedido 
-                </button>
+                {edicion ? 'Guardar cambios' : 'Añadir al pedido'}
+                 </button>
 
         </div>
 

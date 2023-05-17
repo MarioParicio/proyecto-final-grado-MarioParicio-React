@@ -1,5 +1,7 @@
 import  {Outlet} from 'react-router-dom';
 import Modal from 'react-modal';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import ModalProducto from '../components/ModalProducto';
 
 import useBocateria from "../hooks/useBocateria";
@@ -22,7 +24,7 @@ const customStyles = {
 export default function Layout() {
 
   const {modal, handleClickModal} = useBocateria()
-  console.log(modal)
+
   return (
     <>
     <div className='md:flex'>
@@ -45,7 +47,7 @@ export default function Layout() {
             <ModalProducto />
        
       </Modal>
-
+      <ToastContainer/>
 
       )
         
