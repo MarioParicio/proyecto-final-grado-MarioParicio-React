@@ -1,4 +1,5 @@
 import useBocateria from "../hooks/useBocateria"
+import ResumenProducto from "./ResumenProducto"
 export default function Resumen() {
   const {pedido} = useBocateria()
   return (
@@ -15,8 +16,14 @@ export default function Resumen() {
             <p className="text-center text-2xl">No hay productos en tu pedido aún
             </p> 
           ) : (
-            <p>Si hay salgo</p>
-          )}
+            pedido.map((producto) => (
+              <ResumenProducto
+              producto={producto}
+              key={producto.id}
+              />
+            
+          ))
+        )}
 
           <p className="text-xl mt-10">
             Total: {''}

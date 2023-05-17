@@ -19,13 +19,10 @@ const BocateriaProvider = ({children}) => {
     const handleSetProducto = producto => {
         setProducto(producto)
     }
-
-    console.log(categoriaActual)
-
-
-
-
-
+    const handleAgregarPedido = ({categoria_id, imagen, ...producto}) => {
+        console.log(producto)
+        setPedido([...pedido, producto])
+    }
 
     return (
         <BocateriaContext.Provider
@@ -38,6 +35,7 @@ const BocateriaProvider = ({children}) => {
                 producto,
                 handleSetProducto,
                 pedido,
+                handleAgregarPedido
 
             }}
         >

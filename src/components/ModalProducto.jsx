@@ -1,10 +1,15 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+
 import useBocateria from "../hooks/useBocateria"
 import { formatearDinero } from "../helpers"
 export default function ModalProducto() {
 
-    const  {producto,handleClickModal } = useBocateria()
+    const  {producto,handleClickModal, handleAgregarPedido } = useBocateria()
     const [cantidad, setCantidad] = useState(1)
+
+    useEffect(() => {
+        
+    }, [])
   return (
     <div className="md:flex gap-10">
         <div className="md:w-1/3">
@@ -64,6 +69,10 @@ export default function ModalProducto() {
 
                 type="button"
                 className="bg-indigo-600 hover:bg-indigo-800  px-5 py-2 mt-5 uppercase text-white font-bold rounded"
+                onClick={() => {handleAgregarPedido({...producto, cantidad})
+                handleClickModal()
+            }
+            }
                 >
                 Añadir al pedido 
                 </button>
