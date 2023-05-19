@@ -1,35 +1,46 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import useLogin from "../hooks/useLogin";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
-import { auth } from "../firebase";
 import { Link } from "react-router-dom";
 
+
+
+
 export default function Login() {
+  const { login } = useLogin(); // Get the login function from the useLogin hook
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate(); // Get access to the navigate function
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
+  
+  const handleSubmit = async (e) => {
+   
+    e.preventDefault();
 
-    try {
-      await auth.signInWithEmailAndPassword(email, password);
-      // Redirect the user to the desired route after successful login
-      navigate("/home"); // R
-    } catch (error) {
-      // Handle login errors here
-    
-      console.error(error);
+    const success = await login(email, password);
+
+    if (success) {
+      toast.success("Registro exitoso");
+      navigate("/"); // Navigate to the home page
     }
+    else {
+      toast.error("Error en el registro");
+    }
+
   };
+
   return (
     <>
     <h1 className="text-4xl font-bold">Inicia sesión</h1>
     <p>Para entrar debes inciar sesión</p>
 
     <div className="bg-white shadow-md rounded-md mt-10 px-5 py-10">
-    <form onSubmit={handleLogin}>
+    <form onSubmit={handleSubmit}>
       {/* ... */}
       <input
         type="email"
