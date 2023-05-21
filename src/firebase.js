@@ -1,7 +1,8 @@
 // Import the functions you need from the SDKs you need
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
-import "firebase/compat/database";
+import "firebase/compat/firestore";  // Import Firestore 
+
 import "firebase/compat/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -22,6 +23,6 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 
 export const auth = app.auth();
-export const db = app.database();
+export const firestore = app.firestore(); // Inicializar Firestore 
 export const storage = app.storage();
 export default app;
