@@ -1,9 +1,16 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { auth } from "../firebase";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import useLogin from "../hooks/useLogin";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+
 import { Link } from "react-router-dom";
 
 export default function Registro() {
+
+  const { register } = useLogin(); // Get the login function from the useLogin hook
+
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,17 +22,30 @@ export default function Registro() {
     event.preventDefault();
 
     if (password !== passwordConfirmation) {
+      toast.error("Las contraseñas no coinciden");
       console.error("Passwords do not match");
       return;
     }
+    //Name is blank
+    if (name === "") {
+      toast.error("El nombre no puede estar vacío");
+      console.error("Name is blank");
+      return;
+    }   
 
     try {
-      await auth.createUserWithEmailAndPassword(email, password);
-      navigate("/home");
+      const success = await register(email, password, name);
+      if (success) {
+        navigate("/"); // Navigate to the home page
+        consol.log("Inicio de sesión exitoso");
+      }
+      
     } catch (error) {
       console.error(error);
     }
   };
+
+
   return (
     <>
     <h1 className="text-4xl font-bold">Crea tu cuenta</h1>
@@ -39,13 +59,13 @@ export default function Registro() {
             htmlFor="nombre"
             />
 
-            Nombre
+            Nombre completo
             <input
               type="text"
               id="name"
               className="mt-2 w-full p-3 bg-gray-50"
               name="name"
-              placeholder="Escribe tu nombre"
+              placeholder="Escribe tu  nombre completo"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />

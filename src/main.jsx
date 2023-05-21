@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { ToastContainer } from 'react-toastify';
 import { RouterProvider } from 'react-router-dom'
 import { BocateriaProvider } from './context/BocateriaProvider'
 import { LoginProvider } from './context/LoginProvider'
@@ -11,7 +12,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
       <BocateriaProvider>
       <LoginProvider>
-          <RouterProvider router={router}/>
+          <RouterProvider 
+          router={router}
+          />
           
           
       </LoginProvider>

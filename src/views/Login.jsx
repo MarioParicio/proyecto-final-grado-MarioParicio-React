@@ -11,11 +11,11 @@ import { Link } from "react-router-dom";
 
 export default function Login() {
   const { login } = useLogin(); // Get the login function from the useLogin hook
-
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const navigate = useNavigate(); // Get access to the navigate function
+
 
   
   const handleSubmit = async (e) => {
@@ -25,12 +25,10 @@ export default function Login() {
     const success = await login(email, password);
 
     if (success) {
-      toast.success("Registro exitoso");
       navigate("/"); // Navigate to the home page
+      console.log("Inicio de sesión exitoso");
     }
-    else {
-      toast.error("Error en el registro");
-    }
+    
 
   };
 
