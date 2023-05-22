@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect} from "react";
 import { toast } from "react-toastify";
 import { categorias as CategoriasBD } from "../data/categorias";
+import { firestore } from "../firebase";
 const BocateriaContext = createContext();
 
 const BocateriaProvider = ({children}) => {
@@ -10,7 +11,19 @@ const BocateriaProvider = ({children}) => {
     const [producto, setProducto] = useState({})
     const [pedido, setPedido] = useState([])
     const [total, setTotal] = useState(0)
+    const [orders, setOrders] = useState([])
+    const [bocadillos, setBocadillos] = useState([]);
 
+
+    const fetchBocadillos = async () => {
+        const bocadillosCollection = firestore.collection('bocadillos');
+        const snapshot = await bocadillosCollection.get();
+        const bocadillosList = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
+        setBocadillos(bocadillosList);
+    };
     const handleClickCategoria = id => {
         const categoria = categorias.filter(categoria => categoria.id === id)[0]
         setCategoriaActual(categoria)
@@ -49,6 +62,24 @@ const BocateriaProvider = ({children}) => {
         setTotal(nuevoTotal)
     }, [pedido])
 
+    useEffect(() => {
+        const fetchOrders = async () => {
+          const ordersCollection = firestore.collection('orders');
+          const snapshot = await ordersCollection.get();
+          const ordersList = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setOrders(ordersList);
+        };
+        
+        fetchOrders();
+      }, []);
+
+      useEffect(() => {
+        fetchBocadillos();
+    }, []);
+
     return (
         <BocateriaContext.Provider
             value={{
@@ -63,7 +94,10 @@ const BocateriaProvider = ({children}) => {
                 handleAgregarPedido,
                 handleEditarCantidad,
                 handleEliminarProducto,
-                total
+                total,
+                orders,
+                bocadillos
+                
             }}
         >
         {children}    </BocateriaContext.Provider>

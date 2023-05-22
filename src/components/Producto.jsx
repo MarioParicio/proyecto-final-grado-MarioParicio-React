@@ -2,6 +2,8 @@ import { formatearDinero } from "../helpers";
 import useBocateria from "../hooks/useBocateria";
 
 function Producto({ producto}) {
+
+
     
     const {handleClickModal, handleSetProducto} = useBocateria() 
     const { nombre, imagen, precio } = producto
