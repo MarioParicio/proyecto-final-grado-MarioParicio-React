@@ -14,7 +14,7 @@ const  LoginContext = createContext();
 const LoginProvider = ({children }) => {
     const [role, setRole] = useState(null);
     const [currentUser, setCurrentUser] = useState(null);
-    const [loading, setLoading] = useState(true);z
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
           setCurrentUser(user);
