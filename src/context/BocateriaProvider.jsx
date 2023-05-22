@@ -13,6 +13,7 @@ const BocateriaProvider = ({children}) => {
     const [total, setTotal] = useState(0)
     const [orders, setOrders] = useState([])
     const [bocadillos, setBocadillos] = useState([]);
+    const [users, setUsers] = useState([]);
 
 
     const fetchBocadillos = async () => {
@@ -23,6 +24,15 @@ const BocateriaProvider = ({children}) => {
             ...doc.data(),
         }));
         setBocadillos(bocadillosList);
+    };
+    const fetchUsers = async () => {
+        const usersCollection = firestore.collection('users');
+        const snapshot = await usersCollection.get();
+        const usersList = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
+        setUsers(usersList);
     };
     const handleClickCategoria = id => {
         const categoria = categorias.filter(categoria => categoria.id === id)[0]
@@ -78,6 +88,7 @@ const BocateriaProvider = ({children}) => {
 
       useEffect(() => {
         fetchBocadillos();
+        fetchUsers();
     }, []);
 
     return (
@@ -96,8 +107,8 @@ const BocateriaProvider = ({children}) => {
                 handleEliminarProducto,
                 total,
                 orders,
-                bocadillos
-                
+                bocadillos, 
+                users
             }}
         >
         {children}    </BocateriaContext.Provider>
