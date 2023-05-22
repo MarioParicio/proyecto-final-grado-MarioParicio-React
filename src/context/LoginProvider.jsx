@@ -5,6 +5,7 @@ import firebase from "firebase/compat/app";
 
 
 
+
 const  LoginContext = createContext();
 
 
@@ -22,9 +23,21 @@ const LoginProvider = ({children }) => {
         return () => unsubscribe();
       }, []);
       if (loading) {
-        return <div>Loading...</div>;  // Or return null if you don't want to render anything
+        return  <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin h-32 w-32 border-t-4 border-green-500 rounded-full"></div>
+    </div> // Or return null if you don't want to render anything
       }
-
+      const logout = async () => {
+        console.log("logout");
+        try {
+            await auth.signOut();
+            toast.success("Has cerrado la sesión con éxito");
+            return true;
+        } catch (error) {
+            toast.error(`Error al cerrar la sesión: ${error.message}`);
+            return false;
+        }
+    }
     const addUserToFirestore = async (email, role, name = null) => {
         const platform = "web";
         const userRef = firestore.collection('users').doc(email); 
@@ -44,7 +57,8 @@ const LoginProvider = ({children }) => {
             await userRef.update({
                 logs: firebase.firestore.FieldValue.arrayUnion({
                     loginTime: new Date(),
-                    platform
+                    platform,
+                    
                 })
             });
         }
@@ -78,7 +92,8 @@ const LoginProvider = ({children }) => {
             value={{
                 register,
                 login,
-                currentUser
+                currentUser, 
+                logout
             }}
         >
         {children}    </LoginContext.Provider>
