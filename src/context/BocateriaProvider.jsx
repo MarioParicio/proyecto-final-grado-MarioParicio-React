@@ -2,6 +2,7 @@ import { createContext, useState, useEffect} from "react";
 import { toast } from "react-toastify";
 import { categorias as CategoriasBD } from "../data/categorias";
 import { firestore } from "../firebase";
+import firebase from "@firebase/app-compat";
 const BocateriaContext = createContext();
 
 const BocateriaProvider = ({children}) => {
@@ -14,8 +15,50 @@ const BocateriaProvider = ({children}) => {
     const [orders, setOrders] = useState([])
     const [bocadillos, setBocadillos] = useState([]);
     const [users, setUsers] = useState([]);
+    const [selectedFilter, setSelectedFilter] = useState("Hoy")
 
+    const today = new Date();
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
+    const filteredOrders = orders.filter(order => {
+        const orderDate = new Date(order.dateOrder);
+        switch (selectedFilter) {
+            case "Hoy":
+                return orderDate.toDateString() === today.toDateString();
+            case "Este mes":
+                return orderDate >= firstDayOfMonth;
+            case "Todas":
+            default:
+                return true;
+        }
+    });
+
+    const handleToggleOrderStatus = async (idOrder) => {
+        console.log(idOrder);
+        const orderDocRef = firestore.collection('orders').doc(idOrder);
+        
+        const orderDoc = await orderDocRef.get();
+    
+        if (!orderDoc.exists) {
+            toast.error("No matching orders found.");
+            console.log("No matching orders found.");
+            return;
+        }
+    
+        const orderData = orderDoc.data();
+        const newStatus = orderData.estado === 'process' ? 'completed' : 'process';
+    
+        await orderDocRef.update({
+            estado: newStatus
+        });
+    
+        const updatedOrders = orders.map(order => 
+            order.idOrder === idOrder ? { ...order, estado: newStatus } : order
+        );
+        setOrders(updatedOrders);
+        toast.success(`Order ${idOrder} has been updated.`);
+    }
+    
     const fetchBocadillos = async () => {
         const bocadillosCollection = firestore.collection('bocadillos');
         const snapshot = await bocadillosCollection.get();
@@ -62,6 +105,7 @@ const BocateriaProvider = ({children}) => {
         setProducto(pedidoActualizar)
         setModal(!modal)
     }
+    
     const handleEliminarProducto = id => {
         const pedidoEliminar = pedido.filter(pedidoState => pedidoState.id !== id)
         setPedido(pedidoEliminar)
@@ -108,7 +152,11 @@ const BocateriaProvider = ({children}) => {
                 total,
                 orders,
                 bocadillos, 
-                users
+                users,
+                handleToggleOrderStatus,
+                selectedFilter,
+                filteredOrders,
+                setSelectedFilter
             }}
         >
         {children}    </BocateriaContext.Provider>

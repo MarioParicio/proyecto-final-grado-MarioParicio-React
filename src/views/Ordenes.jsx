@@ -2,14 +2,30 @@ import React from 'react'
 import useBocateria from "../hooks/useBocateria";
 import { formatearDinero } from '../helpers';
 export default function Ordenes() {
-    const {orders} = useBocateria()
+    const {orders, handleToggleOrderStatus, selectedFilter, filteredOrders, setSelectedFilter} = useBocateria()
 
     return (
+        
         <div>
+           
+ 
+        <div className='m-5'>
             <h1 className='text-4xl font-bold'>Ordenes</h1>
             <p className='text-xl my-10'>Administra las ordenes desde aquí</p>
+            <select
+                value={selectedFilter}
+                onChange={event => setSelectedFilter(event.target.value)}
+            >
+                <option value="Hoy">Hoy</option>
+                <option value="Este mes">Este mes</option>
+                <option value="Todas">Todas</option>
+                
+                
+            </select>
+
+        </div>
             <div  className='grid grid-cols-2 gap-5'>
-                {orders.map(order => (
+                {filteredOrders.map(order => (
                     <div key={order.idOrder} className='p-5 bg-white shadow space-y-2 border-b '>
                         <p className='text-xl font-bold text-slate-600'>Contenido del pedido:</p> 
 
@@ -50,11 +66,13 @@ export default function Ordenes() {
                             </span>
                         </p>
                         <button
-                        type='button'
-                        className='bg-indigo-600 hover:bg-indigo-800 px-5 py-2 rounded text-white font-bold uppercase text-center w-full cursor-pointer'
-                        value="Confirmar pedido"
-                        
-                        > Completar</button>
+            type='button'
+            className={`px-5 py-2 rounded text-white font-bold uppercase text-center w-full cursor-pointer 
+                        ${order.estado === 'process' ? 'bg-indigo-600 hover:bg-indigo-800' : 'bg-green-600 hover:bg-green-800'}`}
+            onClick={() => handleToggleOrderStatus(order.idOrder)}
+        >
+            {order.estado === 'process' ? 'En proceso' : 'Entregado'}
+        </button>
                     </div>  
                 ))}
             </div>
