@@ -2,7 +2,7 @@ import React from 'react'
 import useBocateria from "../hooks/useBocateria";
 import { formatearDinero } from '../helpers';
 export default function Ordenes() {
-    const {orders, handleToggleOrderStatus, selectedFilter, filteredOrders, setSelectedFilter} = useBocateria()
+    const {orders, handleToggleOrderStatus, selectedFilter, filteredOrders, setSelectedFilter, selectedStatus, setSelectedStatus} = useBocateria()
 
     return (
         
@@ -10,18 +10,29 @@ export default function Ordenes() {
            
  
         <div className='m-5'>
-            <h1 className='text-4xl font-bold'>Ordenes</h1>
+            <h1 className='text-4xl  font-bold'>Ordenes</h1>
             <p className='text-xl my-10'>Administra las ordenes desde aquí</p>
             <select
-                value={selectedFilter}
-                onChange={event => setSelectedFilter(event.target.value)}
-            >
-                <option value="Hoy">Hoy</option>
-                <option value="Este mes">Este mes</option>
-                <option value="Todas">Todas</option>
-                
-                
-            </select>
+            className='p-2 border border-gray-200 rounded'
+            value={selectedFilter}
+            onChange={event => setSelectedFilter(event.target.value)}
+        >
+            <option value="Hoy">Hoy</option>
+            <option value="Este mes">Este mes</option>
+            <option value="Todas">Todos</option>
+        </select>
+
+        <select
+            className='ml-3 p-2 border border-gray-200 rounded'
+            value={selectedStatus}
+            onChange={event => setSelectedStatus(event.target.value)}
+        >
+            <option value="">Todos</option>
+            <option value="Entregados">Entregados</option>
+            <option value="En proceso">En proceso</option>
+        </select>
+
+            
 
         </div>
             <div  className='grid grid-cols-2 gap-5'>
@@ -35,7 +46,7 @@ export default function Ordenes() {
                             className='border-b  border-b-slate-200  last-of-type:border-nome  py-4'
                             >
                                 <p className='text-sm'>ID: {bocadillo.uid} </p> 
-                                <p className='text-sm'>Nombre: {bocadillo.bocadilloName}</p> 
+                                <p className='text-base font-bold'>Nombre: {bocadillo.bocadilloName}</p> 
                                 
                                 <p className='font-bold'>
                                     Cantidad: {bocadillo.cantidad}

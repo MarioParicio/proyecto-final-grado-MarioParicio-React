@@ -16,21 +16,19 @@ const BocateriaProvider = ({children}) => {
     const [bocadillos, setBocadillos] = useState([]);
     const [users, setUsers] = useState([]);
     const [selectedFilter, setSelectedFilter] = useState("Hoy")
+    const [selectedStatus, setSelectedStatus] = useState("");
 
     const today = new Date();
     const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
     const filteredOrders = orders.filter(order => {
         const orderDate = new Date(order.dateOrder);
-        switch (selectedFilter) {
-            case "Hoy":
-                return orderDate.toDateString() === today.toDateString();
-            case "Este mes":
-                return orderDate >= firstDayOfMonth;
-            case "Todas":
-            default:
-                return true;
-        }
+        return (
+            (selectedFilter === "Hoy" ? orderDate.toDateString() === today.toDateString() : true) &&
+            (selectedFilter === "Este mes" ? orderDate >= firstDayOfMonth : true) &&
+            (selectedStatus === "Entregados" ? order.estado === 'completed' : true) &&
+            (selectedStatus === "En proceso" ? order.estado === 'process' : true)
+        );
     });
 
     const handleToggleOrderStatus = async (idOrder) => {
@@ -156,7 +154,9 @@ const BocateriaProvider = ({children}) => {
                 handleToggleOrderStatus,
                 selectedFilter,
                 filteredOrders,
-                setSelectedFilter
+                setSelectedFilter,
+                selectedStatus,
+                setSelectedStatus
             }}
         >
         {children}    </BocateriaContext.Provider>
