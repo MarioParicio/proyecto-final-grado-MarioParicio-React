@@ -11,29 +11,60 @@ const  LoginContext = createContext();
 
 
 
-const LoginProvider = ({children }) => {
+
+
+    const LoginProvider = ({children }) => {
     const [role, setRole] = useState(null);
     const [currentUser, setCurrentUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [users, setUsers] = useState([]);
     const googleProvider = new firebase.auth.GoogleAuthProvider();
 
-    const loginWithGoogle = async () => {
-      try {
-        const result = await auth.signInWithPopup(googleProvider);
-        const { user } = result;
-        if (user) {
-          toast.success("Inicio de sesión exitoso con Google");
-          await addUserToFirestore(user.uid, user.email, "user", user.displayName); 
-          return true;
-        }
-        return false;
-      } catch (error) {
-        toast.error(`Error en el inicio de sesión con Google: ${error.message}`);
-        console.error(error);
-        return false;
-      }
+    const toggleUserState = async (uid, newState) => {
+        const userRef = firestore.collection('users').doc(uid);
+        await userRef.update({
+            state: newState
+        });
+        toast.success(`User ${uid} has been ${newState}.`);
+        return newState;
     };
+    
 
+    const loginWithGoogle = async () => {
+        try {
+          const result = await auth.signInWithPopup(googleProvider);
+          const { user } = result;
+          if (user) {
+            const userRef = firestore.collection('users').doc(user.uid);
+            const doc = await userRef.get();
+            const userData = doc.data();
+            if (userData.state === 'inactive') {
+                toast.error('Este usuario está desactivado. Comuníquese con el administrador.');
+              return false;
+            }
+            toast.success("Inicio de sesión exitoso con Google");
+            await addUserToFirestore(user.uid, user.email, "user", user.displayName); 
+            return true;
+          }
+          return false;
+        } catch (error) {
+          toast.error(`Error en el inicio de sesión con Google: ${error.message}`);
+          console.error(error);
+          return false;
+        }
+      };
+    useEffect(() => {
+        const unsubscribe = firestore.collection('users').onSnapshot((snapshot) => {
+          const newUsers = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+          
+          setUsers(newUsers);
+        });
+    
+        return () => unsubscribe();
+      }, []);
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
           setCurrentUser(user);
@@ -96,17 +127,24 @@ const LoginProvider = ({children }) => {
     
     const login = async (email, password) => {
         try {
-            const userCredential = await auth.signInWithEmailAndPassword(email, password);
-            const { user } = userCredential;  // Desestructurar user del objeto userCredential
-            toast.success("Inicio de sesión exitoso");
-            await addUserToFirestore(user.uid, email, "user");  // Pasar el uid del usuario
-            return true; // Return true on success
+          const userCredential = await auth.signInWithEmailAndPassword(email, password);
+          const { user } = userCredential;  
+          const userRef = firestore.collection('users').doc(user.uid);
+          const doc = await userRef.get();
+          const userData = doc.data();
+          if (userData.state === 'inactive') {
+            toast.error('Este usuario está desactivado. Comuníquese con el administrador.');
+            return false;
+          }
+          toast.success("Inicio de sesión exitoso");
+          await addUserToFirestore(user.uid, email, "user"); 
+          return true; 
         } catch (error) {
-            toast.error(`Error en el inicio de sesión: ${error.message}`);
-            console.error(error);
-            return false; // Return false on failure
+          toast.error(`Error en el inicio de sesión: ${error.message}`);
+          console.error(error);
+          return false; 
         }
-    };
+      };
     
     const register = async (email, password, name) => {
         try {
@@ -128,7 +166,10 @@ const LoginProvider = ({children }) => {
                 currentUser, 
                 logout,
                 role, 
-                loginWithGoogle
+                loginWithGoogle,
+                users,
+                toggleUserState,
+
             }}
         >
         {children}    </LoginContext.Provider>

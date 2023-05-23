@@ -1,8 +1,11 @@
 import React from 'react'
 import useBocateria from "../hooks/useBocateria";
+import { LoginProvider } from '../context/LoginProvider';
+import useLogin from '../hooks/useLogin';
 
 export default function Usuarios() {
-    const {users} = useBocateria()
+
+    const { toggleUserState, users } = useLogin();
 
     // Ordenar los usuarios por el último log
     const sortedUsers = [...users].sort((a, b) => {
@@ -36,6 +39,12 @@ export default function Usuarios() {
                                 <p className='text-sm'>Platform: {user.logs[user.logs.length - 1].platform}</p>
                             </div>
                         )}
+                        <button
+                        className={`px-5 py-2 rounded text-white font-bold uppercase text-center w-full cursor-pointer 
+                        ${user.state === 'inactive' ? 'bg-indigo-600 hover:bg-indigo-800' : 'bg-green-600 hover:bg-green-800'}`}
+                         onClick={() => toggleUserState(user.id, user.state === 'active' ? 'inactive' : 'active')}>
+                          {user.state === 'active' ? 'Desactivar' : 'Activar'}
+                            </button>
                     </div>
                 ))}
             </div>
