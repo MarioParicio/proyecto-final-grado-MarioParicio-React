@@ -10,10 +10,10 @@ import { Link } from "react-router-dom";
 
 
 export default function Login() {
-  const { login } = useLogin(); // Get the login function from the useLogin hook
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login, loginWithGoogle } = useLogin();
 
 
 
@@ -30,6 +30,16 @@ export default function Login() {
     }
     
 
+  };
+  const handleGoogleLogin = async (e) => {
+    e.preventDefault();
+    
+    const success = await loginWithGoogle();
+    
+    if (success) {
+      navigate("/");
+      console.log("Inicio de sesión exitoso");
+    }
   };
 
   return (
@@ -68,6 +78,17 @@ export default function Login() {
       />
       {/* ... */}
     </form>
+    <button
+  onClick={handleGoogleLogin}
+  className="mt-4 flex justify-center items-center bg-blue-600 hover:bg-blue-700 w-full p-3 text-white uppercase font-bold cursor-pointer"
+>
+  <img 
+    src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" 
+    alt="Google logo" 
+    className="h-5 w-5 mr-2"
+  />
+  Iniciar sesión con Google
+</button>
     </div>
     <nav className="mt-10 flex justify-center">
 

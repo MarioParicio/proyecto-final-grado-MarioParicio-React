@@ -15,6 +15,25 @@ const LoginProvider = ({children }) => {
     const [role, setRole] = useState(null);
     const [currentUser, setCurrentUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+    const loginWithGoogle = async () => {
+      try {
+        const result = await auth.signInWithPopup(googleProvider);
+        const { user } = result;
+        if (user) {
+          toast.success("Inicio de sesión exitoso con Google");
+          await addUserToFirestore(user.uid, user.email, "user", user.displayName); 
+          return true;
+        }
+        return false;
+      } catch (error) {
+        toast.error(`Error en el inicio de sesión con Google: ${error.message}`);
+        console.error(error);
+        return false;
+      }
+    };
+
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
           setCurrentUser(user);
@@ -108,7 +127,8 @@ const LoginProvider = ({children }) => {
                 login,
                 currentUser, 
                 logout,
-                role
+                role, 
+                loginWithGoogle
             }}
         >
         {children}    </LoginContext.Provider>
