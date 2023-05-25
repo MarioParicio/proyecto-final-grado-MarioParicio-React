@@ -1,12 +1,12 @@
 import Producto from "../components/Producto"
-import { productos as data } from "../data/productos"
+
 import useBocateria from "../hooks/useBocateria"
 
 export default function Inicio() {
 
   const {categoriaActual} = useBocateria()
-  const productos = data.filter(producto => producto.categoria_id === categoriaActual.id)
-  console.log(productos)
+  const {bocadillos} = useBocateria()
+  console.log(bocadillos)
 
   return (
     <>
@@ -14,15 +14,15 @@ export default function Inicio() {
         <p className="text-2xl my-10">Elige y personaliza tu pedido a continuación</p>
 
 
-        <div className="grid gap-4 grid-cols-1 md:grid-cols-2  xl:grid-cols-3">
+        <div className="grid gap-4 grid-cols-1 md:grid-cols-2  xl:grid-cols-3"> 
+      
 
-          {productos.map(producto => (
-              <Producto
-              key={producto.imagen}
-              producto={producto}
-              />
-
-          ))}
+                {bocadillos.map(bocadillo => (
+          <Producto
+            key={bocadillo.photoUrl} // assuming 'id' is a unique identifier in 'bocadillo' object
+            bocadillo={bocadillo}
+          />
+        ))}
 
 
         </div>
