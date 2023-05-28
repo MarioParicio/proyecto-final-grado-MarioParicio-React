@@ -17,9 +17,11 @@ export default function Ordenes() {
             value={selectedFilter}
             onChange={event => setSelectedFilter(event.target.value)}
         >
+            
             <option value="Hoy">Hoy</option>
             <option value="Este mes">Este mes</option>
             <option value="Todas">Todos</option>
+            
         </select>
 
         <select
@@ -37,7 +39,7 @@ export default function Ordenes() {
         </div>
             <div  className='grid grid-cols-2 gap-5'>
                 {filteredOrders.map(order => (
-                    <div key={order.idOrder} className='p-5 bg-white shadow space-y-2 border-b '>
+                    <div key={order.id} className='p-5 bg-white shadow space-y-2 border-b '>
                         <p className='text-xl font-bold text-slate-600'>Contenido del pedido:</p> 
 
                         {order.bocadillos_order.map(bocadillo => (
@@ -80,7 +82,7 @@ export default function Ordenes() {
             type='button'
             className={`px-5 py-2 rounded text-white font-bold uppercase text-center w-full cursor-pointer 
                         ${order.estado === 'process' ? 'bg-indigo-600 hover:bg-indigo-800' : 'bg-green-600 hover:bg-green-800'}`}
-            onClick={() => handleToggleOrderStatus(order.idOrder)}
+            onClick={() => handleToggleOrderStatus(order.id)}
         >
             {order.estado === 'process' ? 'En proceso' : 'Entregado'}
         </button>

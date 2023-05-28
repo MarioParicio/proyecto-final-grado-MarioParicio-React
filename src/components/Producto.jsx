@@ -2,8 +2,8 @@ import { formatearDinero } from "../helpers";
 import useBocateria from "../hooks/useBocateria";
 
 function Producto({ bocadillo }) {
-    const { handleClickModal, handleSetProducto } = useBocateria();
-    const { name, photoUrl, price, description } = bocadillo;
+    const { handleClickModal, handleSetBocadillo } = useBocateria();
+    const {  name, photoUrl, price, description } = bocadillo;
   
     return (
       <div className="border p-3 shadow bg-white">
@@ -24,8 +24,9 @@ function Producto({ bocadillo }) {
             type="button"
             className="bg-indigo-600 hover:bg-indigo-800  text-white w-full p-3  mt-5 uppercase font-bold"
             onClick={() => {
+              handleSetBocadillo(bocadillo);
               handleClickModal();
-              handleSetProducto(bocadillo);
+              
             }}
           >
             Agregar
