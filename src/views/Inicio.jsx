@@ -19,7 +19,7 @@ export default function Inicio() {
 
                 {bocadillos.map(bocadillo => (
           <Producto
-            key={bocadillo.photoUrl} // assuming 'id' is a unique identifier in 'bocadillo' object
+            key={bocadillo.name} // assuming 'id' is a unique identifier in 'bocadillo' object
             bocadillo={bocadillo}
           />
         ))}

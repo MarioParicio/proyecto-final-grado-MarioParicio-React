@@ -23,7 +23,7 @@ export default function AdminSidebar() {
      
 
                  <Link to="/admin" className='font-bold text-lg flex items-center gap-4 border w-full p-3 hover:bg-amber-400 cursor-pointer'>Ordenes</Link>
-                <Link to="/admin/productos" className='font-bold text-lg flex items-center gap-4 border w-full p-3 hover:bg-amber-400 cursor-pointer'>Productos</Link>
+                <Link to="/admin/bocadillos" className='font-bold text-lg flex items-center gap-4 border w-full p-3 hover:bg-amber-400 cursor-pointer'>Bocadillos</Link>
                 <Link to="/admin/usuarios" className='font-bold text-lg flex items-center gap-4 border w-full p-3 hover:bg-amber-400 cursor-pointer'>Usuarios</Link>
 
         </nav>

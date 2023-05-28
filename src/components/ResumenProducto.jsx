@@ -1,18 +1,18 @@
 import { formatearDinero } from "../helpers";
 import useBocateria from "../hooks/useBocateria";
 export default function ResumenProducto({producto}, {key}) {
-    const {handleEditarCantidad, handleEliminarProducto} = useBocateria()
-    const {id, nombre, precio, cantidad} = producto
+    const {handleEditarCantidad, handleEliminarBocadillo} = useBocateria()
+    const {id, name, price, cantidad} = producto
     return (
         <div className="shadow space-y-1 p-4 bg-white">
           <div className="space-y-2">
-            <p className="text-xl font-bold">{nombre}</p>
+            <p className="text-xl font-bold">{name}</p>
             <p className="text-lg font-bold ">Cantidad: {cantidad}</p>
             <p className="text-lg font-bold text-amber-500">
-              Precio: {formatearDinero(precio)}
+              Precio: {formatearDinero(price)}
             </p>
             <p className="text-lg text-gray-700">
-              Subtotal: {formatearDinero(precio * cantidad)}
+              Subtotal: {formatearDinero(price * cantidad)}
             </p>
           </div>
     
@@ -34,7 +34,7 @@ export default function ResumenProducto({producto}, {key}) {
             <button
               type="button"
               className="bg-red-700 p-2 text-white rounded-md font-bold uppercase shadow-md text-center"
-              onClick={() => handleEliminarProducto(id)}
+              onClick={() => handleEliminarBocadillo(id)}
               
             >
               <svg

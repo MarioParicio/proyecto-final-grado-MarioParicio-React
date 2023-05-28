@@ -7,9 +7,10 @@ import Registro from '../views/Registro';
 import PrivateRoute from './PrivateRoute';
 import AdminLayout from "../layout/AdminLayout";
 import Ordenes from '../views/Ordenes';
-import Productos from '../layout/Productos';
+
 import AdminRoute from './AdminRoute';
 import Usuarios from '../views/Usuarios';
+import Bocadillos from '../views/Bocadillos';
 
 
 const router = createBrowserRouter([
@@ -49,8 +50,8 @@ const router = createBrowserRouter([
         element: <Ordenes />,
       },
       {
-        path: '/admin/productos',
-        element: <Productos/>,
+        path: '/admin/bocadillos',
+        element: <Bocadillos/>,
       },
       {
         path: '/admin/usuarios',

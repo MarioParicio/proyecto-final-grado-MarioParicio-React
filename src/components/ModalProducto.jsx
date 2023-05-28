@@ -33,6 +33,14 @@ export default function ModalProducto() {
             </div>
 
             <div className="md:w-2/3">
+            <div className="flex justify-end">
+        <button onClick={handleClickModal}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="red" stroke="red" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-x cursor-pointer hover:text-red-400">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
                 <div className="flex justify-end">
                     <button onClick={handleClickModal}>
                         {/* SVG code omitted for brevity */}
@@ -42,7 +50,32 @@ export default function ModalProducto() {
                 <p className="mt-5">{bocadillo.description}</p>
                 <p className="mt-5 font-black text-5xl text-amber-500">{formatearDinero(bocadillo.price * cantidad)}</p>
 
-                {/* Quantity and button code omitted for brevity */}
+                
+                <div className="flex gap-4 mt-5">
+                <button
+                    type="button"
+                    onClick={() => {cantidad > 1 && setCantidad(cantidad - 1)}}
+
+                >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+
+                
+
+                </button>
+
+                <p className="text-3xl">{cantidad}</p>
+                <button
+                    type="button"
+                    onClick={() =>{cantidad <= 10 && setCantidad(cantidad + 1)}}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </button>
+
+            </div>
 
                 <div className="mt-5">
                     <label className="block text-xl font-bold mb-2">Añadir una nota:</label>
