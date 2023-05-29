@@ -12,6 +12,7 @@ const BocateriaProvider = ({ children }) => {
   const [modal, setModal] = useState(false);
   const [bocadillo, setBocadillo] = useState({});
   const [bocadillos, setBocadillos] = useState([]);
+  const [activeBocadillos, setActiveBocadillos] = useState([]); // bocadillos.filter(bocadillo => bocadillo.active === true)
   const [pedido, setPedido] = useState([]);
   const [total, setTotal] = useState(0);
   const [orders, setOrders] = useState([]);
@@ -70,6 +71,9 @@ const BocateriaProvider = ({ children }) => {
       ...doc.data(),
     }));
     setBocadillos(bocadillosList);
+
+    // Aquí actualizamos activeBocadillos después de haber actualizado bocadillos
+    setActiveBocadillos(bocadillosList.filter(bocadillo => bocadillo.active));
   };
 
   const fetchUsers = async () => {
@@ -113,14 +117,40 @@ const BocateriaProvider = ({ children }) => {
     setBocadillo(bocadilloActualizar);
     setModal(!modal);
   };
-
+  const fetchActiveBocadillosasync = async () =>  {
+    setActiveBocadillos(bocadillos.filter(bocadillo => bocadillo.active));
+  }
   const handleEliminarBocadillo = (uid) => {
     
     const pedidoEliminar = pedido.filter((pedidoState) => pedidoState.id !== uid);
     setPedido(pedidoEliminar);
     toast.success("Bocadillo eliminado del pedido");
   };
+  const toggleBocadilloStatus = async (bocadilloId) => {
+    const bocadilloDocRef = firestore.collection("bocadillos").doc(bocadilloId);
+    const bocadilloDoc = await bocadilloDocRef.get();
+    
+    if (!bocadilloDoc.exists) {
+      toast.error("Bocadillo not found.");
+      console.log("Bocadillo not found.");
+      return;
+    }
 
+    const bocadilloData = bocadilloDoc.data();
+    const newStatus = !bocadilloData.active;
+
+    await bocadilloDocRef.update({
+      active: newStatus,
+    });
+
+    const updatedBocadillos = bocadillos.map((bocadillo) =>
+      bocadillo.id === bocadilloId ? { ...bocadillo, active: newStatus } : bocadillo
+    );
+
+    setBocadillos(updatedBocadillos);
+    setActiveBocadillos(updatedBocadillos.filter(bocadillo => bocadillo.active));
+    toast.success(`Bocadillo ${bocadilloId} status has been updated.`);
+  };
   useEffect(() => {
     const nuevoTotal = pedido.reduce((acumulador, bocadillo) => acumulador + bocadillo.price * bocadillo.cantidad, 0);
     setTotal(nuevoTotal);
@@ -142,6 +172,8 @@ const BocateriaProvider = ({ children }) => {
 
   useEffect(() => {
     fetchBocadillos();
+  
+
     fetchUsers();
   }, []);
 
@@ -169,6 +201,10 @@ const BocateriaProvider = ({ children }) => {
         setSelectedFilter,
         selectedStatus,
         setSelectedStatus,
+        activeBocadillos,
+        toggleBocadilloStatus,
+        
+        
       }}
     >
       {children}
