@@ -5,8 +5,8 @@ import useBocateria from "../hooks/useBocateria"
 export default function Inicio() {
 
   const {categoriaActual} = useBocateria()
-  const {bocadillos} = useBocateria()
-  console.log(bocadillos)
+  const {activeBocadillos} = useBocateria()
+  console.log(activeBocadillos)
 
   return (
     <>
@@ -17,7 +17,7 @@ export default function Inicio() {
         <div className="grid gap-4 grid-cols-1 md:grid-cols-2  xl:grid-cols-3"> 
       
 
-                {bocadillos.map(bocadillo => (
+                {activeBocadillos.map(bocadillo => (
           <Producto
             key={bocadillo.name} // assuming 'id' is a unique identifier in 'bocadillo' object
             bocadillo={bocadillo}

@@ -33,6 +33,76 @@ const BocateriaProvider = ({ children }) => {
       (selectedStatus === "En proceso" ? order.estado === "process" : true)
     );
   });
+  const makeOrder = async () => {
+    console.log(pedido);
+
+    if (pedido.length === 0) {
+      toast.error('No hay bocadillos en el pedido.');
+      return;
+    }
+    
+    try {
+      let fechaActual = new Date();
+      let fechaComoISO = fechaActual.toISOString();
+
+      //Obtener usuario por uid
+const userDocRef = firestore.collection("users").doc(firebase.auth().currentUser.uid);
+
+//Obtener el documento del usuario
+const userDoc = await userDocRef.get();
+
+// Verificar si el documento existe
+if (!userDoc.exists) {
+  console.error('El documento del usuario no existe.');
+  return;
+}
+
+// Obtener los datos del documento
+const userData = userDoc.data();
+
+// Prepare new order data
+const newOrder = {
+         // Array of bocadillos in the order
+        bocadillos_order : pedido.map((bocadillo) => ({
+          bocadilloName: bocadillo.name,
+          cantidad: bocadillo.cantidad,
+          nota: bocadillo.nota,
+          uid: bocadillo.id,
+        })),
+        //2023-05-27T14:39:56.348672
+        dateOrder: fechaComoISO, // Cambio aquí
+        email: firebase.auth().currentUser.email,
+        estado: "process",
+        nameClient: userData.name, // Cambio aquí
+        idClient : firebase.auth().currentUser.uid,
+        idOrder: firebase.firestore().collection('orders').doc().id,
+        paid : false,
+        total: total,
+        uid: firebase.firestore().collection('orders').doc().id,
+
+
+
+
+
+      };
+      
+      // Save the new order to Firestore
+      await firestore.collection('orders').doc(newOrder.idOrder).set(newOrder);
+      
+      // Update local orders state
+      setOrders((prevOrders) => [...prevOrders, newOrder]);
+      
+      // Reset the current order state
+      setPedido([]);
+      setTotal(0);
+
+      toast.success('Pedido realizado con éxito.');
+    } catch (error) {
+      console.error('Error al realizar el pedido: ', error);
+      toast.error('Error al realizar el pedido.');
+    }
+  };
+
 
   const handleToggleOrderStatus = async (idOrder) => {
 
@@ -46,6 +116,7 @@ const BocateriaProvider = ({ children }) => {
       console.log("No se encontraron pedidos coincidentes.");
       return;
     }
+
 
     const orderData = orderDoc.data();
     const newStatus = orderData.estado === "process" ? "completed" : "process";
@@ -117,9 +188,7 @@ const BocateriaProvider = ({ children }) => {
     setBocadillo(bocadilloActualizar);
     setModal(!modal);
   };
-  const fetchActiveBocadillosasync = async () =>  {
-    setActiveBocadillos(bocadillos.filter(bocadillo => bocadillo.active));
-  }
+
   const handleEliminarBocadillo = (uid) => {
     
     const pedidoEliminar = pedido.filter((pedidoState) => pedidoState.id !== uid);
@@ -203,6 +272,8 @@ const BocateriaProvider = ({ children }) => {
         setSelectedStatus,
         activeBocadillos,
         toggleBocadilloStatus,
+        makeOrder,
+
         
         
       }}

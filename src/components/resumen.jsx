@@ -2,7 +2,7 @@ import { formatearDinero } from "../helpers"
 import useBocateria from "../hooks/useBocateria"
 import ResumenProducto from "./ResumenProducto"
 export default function Resumen() {
-  const {pedido, total} = useBocateria()
+  const {pedido, total, makeOrder} = useBocateria()
   const comprobarPedido = () =>pedido.length === 0
 
   return (
@@ -35,14 +35,20 @@ export default function Resumen() {
 
           <form className="w-full">
             <div className="mt-5">
-              <input
-                type="submit"
-                className={`${comprobarPedido() ? 'bg-indigo-100' : 'bg-indigo-600 hover:bg-indigo-800' }
-                text-center  text-white w-full p-3  mt-5 uppercase font-bold cursor-pointer`}
-                value="Realizar pedido"
-                disabled={comprobarPedido()}
-                />
-
+            <button
+            className={`${
+              comprobarPedido()
+                ? 'bg-indigo-100'
+                : 'bg-indigo-600 hover:bg-indigo-800'
+            } text-center text-white w-full p-3 mt-5 uppercase font-bold cursor-pointer`}
+            disabled={comprobarPedido()}
+            onClick={(event) => {
+              event.preventDefault();
+              makeOrder();
+            }}
+          >
+            Realizar pedido
+          </button>
 
             </div>
 

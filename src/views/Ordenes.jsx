@@ -42,7 +42,9 @@ export default function Ordenes() {
                     <div key={order.id} className='p-5 bg-white shadow space-y-2 border-b '>
                         <p className='text-xl font-bold text-slate-600'>Contenido del pedido:</p> 
 
-                        {order.bocadillos_order.map(bocadillo => (
+                        {
+
+                        order.bocadillos_order.map(bocadillo => (
                             <div 
                             key={bocadillo.uid}
                             className='border-b  border-b-slate-200  last-of-type:border-nome  py-4'
@@ -58,7 +60,8 @@ export default function Ordenes() {
                                     Nota: {bocadillo.nota}
                                 </p>
                             </div> 
-                        ))}
+                        )) 
+                        }
                         <p className='text-lg font-bold text-amber-600'>
                             Cliente: {''}
                             <span className='font-normal '>{order.nameClient}
