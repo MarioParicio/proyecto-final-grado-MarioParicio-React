@@ -22,9 +22,22 @@ export default function AdminSidebar() {
 
      
 
-                 <Link to="/admin" className='font-bold text-lg flex items-center gap-4 border w-full p-3 hover:bg-amber-400 cursor-pointer'>Ordenes</Link>
-                <Link to="/admin/bocadillos" className='font-bold text-lg flex items-center gap-4 border w-full p-3 hover:bg-amber-400 cursor-pointer'>Bocadillos</Link>
-                <Link to="/admin/usuarios" className='font-bold text-lg flex items-center gap-4 border w-full p-3 hover:bg-amber-400 cursor-pointer'>Usuarios</Link>
+        <Link to="/admin" className='font-bold text-lg flex items-center gap-4 border w-full p-3 hover:bg-amber-400 cursor-pointer'>
+    <img src="/img/pedido.png" alt="Logo Ordenes" className="h-14 w-14" /> 
+
+    Ordenes
+</Link>
+
+<Link to="/admin/bocadillos" className='font-bold text-lg flex items-center gap-4 border w-full p-3 hover:bg-amber-400 cursor-pointer'>
+    <img src={`../img/icono_sandwich.png`} alt="Logo Bocadillos" className="h-14 w-14" /> 
+
+    Bocadillos
+</Link>
+
+<Link to="/admin/usuarios" className='font-bold text-lg flex items-center gap-4 border w-full p-3 hover:bg-amber-400 cursor-pointer'>
+    <img src="/img/logo_usuarios.png" alt="Logo Usuarios" className="h-14 w-14" /> 
+    Usuarios
+</Link>
 
         </nav>
 
