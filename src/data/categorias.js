@@ -2,21 +2,17 @@ const categorias = [
     {
         icono: "icono_sandwich",
         nombre: "Bocadillos",
-        id:1
+        id:1,
+        link: "/" 
       },
       {
         icono: "pedido",
         nombre: "Mis pedidos",
         id:2,
+        link: "/mis-pedidos"
+        
       }
-        ,
-        {
-            icono: "pedido",
-            nombre: "Mis pedidos",
-            id:2
-            }
-            ,
-
+        
    
 ]
 

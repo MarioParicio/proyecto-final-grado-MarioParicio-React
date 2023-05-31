@@ -3,6 +3,8 @@ import { toast } from "react-toastify";
 import { categorias as CategoriasBD } from "../data/categorias";
 import { firestore } from "../firebase";
 import firebase from "@firebase/app-compat";
+import { LoginProvider } from "./LoginProvider";
+import useLogin from "../hooks/useLogin";
 
 const BocateriaContext = createContext();
 
@@ -18,6 +20,8 @@ const BocateriaProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
   const [users, setUsers] = useState([]);
   const [userOrders, setUserOrders] = useState([]);
+
+
 
   const [selectedFilter, setSelectedFilter] = useState("Todas");
 
@@ -58,16 +62,7 @@ if (!userDoc.exists) {
   console.error('El documento del usuario no existe.');
   return;
 }
-const fetchUserOrders = async () => {
-  const userId = firebase.auth().currentUser.uid;
-  const ordersCollection = firestore.collection("orders");
-  const snapshot = await ordersCollection.where("idClient", "==", userId).get();
-  const ordersList = snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
-  setUserOrders(ordersList);
-};
+
 // Obtener los datos del documento
 const userData = userDoc.data();
 
@@ -113,6 +108,22 @@ const newOrder = {
       toast.error('Error al realizar el pedido.');
     }
   };
+  const fetchUserOrders = async () => {
+    const userId = firebase.auth().currentUser?.uid;
+    if (userId) {
+      const ordersCollection = firestore.collection("orders");
+      const snapshot = await ordersCollection.where("idClient", "==", userId).get();
+      const ordersList = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setUserOrders(ordersList);
+    } else {
+      console.error('No hay un usuario autenticado');
+    }
+  };
+
+
 
 
   const handleToggleOrderStatus = async (idOrder) => {
@@ -223,6 +234,7 @@ const newOrder = {
       active: newStatus,
     });
 
+
     const updatedBocadillos = bocadillos.map((bocadillo) =>
       bocadillo.id === bocadilloId ? { ...bocadillo, active: newStatus } : bocadillo
     );
@@ -248,12 +260,18 @@ const newOrder = {
     };
 
     fetchOrders();
+    // wait 5 sec
+    setTimeout(() => {
+      fetchUserOrders();
+    }, 500);
+
   }, []);
 
   useEffect(() => {
     fetchBocadillos();
     fetchUsers();
-    fetchUserOrders();
+
+    
   }, []);
 
   return (
@@ -284,6 +302,8 @@ const newOrder = {
         toggleBocadilloStatus,
         makeOrder,
         userOrders,
+     
+        
 
         
         

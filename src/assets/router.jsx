@@ -11,6 +11,7 @@ import Ordenes from '../views/Ordenes';
 import AdminRoute from './AdminRoute';
 import Usuarios from '../views/Usuarios';
 import Bocadillos from '../views/Bocadillos';
+import MisOrdenes from '../views/MisOrdenes';
 
 
 const router = createBrowserRouter([
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
         index: true,
         element: <PrivateRoute><Inicio /></PrivateRoute>,
       },
+      {
+        path: '/mis-pedidos',
+        element: <PrivateRoute><MisOrdenes /></PrivateRoute>,
+      }
       // Asegúrate de utilizar `PrivateRoute` para todas las demás rutas que quieras proteger.
     ],
   },
