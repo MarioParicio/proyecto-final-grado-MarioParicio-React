@@ -17,6 +17,8 @@ const BocateriaProvider = ({ children }) => {
   const [total, setTotal] = useState(0);
   const [orders, setOrders] = useState([]);
   const [users, setUsers] = useState([]);
+  const [userOrders, setUserOrders] = useState([]);
+
   const [selectedFilter, setSelectedFilter] = useState("Todas");
 
   const [selectedStatus, setSelectedStatus] = useState("");
@@ -56,7 +58,16 @@ if (!userDoc.exists) {
   console.error('El documento del usuario no existe.');
   return;
 }
-
+const fetchUserOrders = async () => {
+  const userId = firebase.auth().currentUser.uid;
+  const ordersCollection = firestore.collection("orders");
+  const snapshot = await ordersCollection.where("idClient", "==", userId).get();
+  const ordersList = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  setUserOrders(ordersList);
+};
 // Obtener los datos del documento
 const userData = userDoc.data();
 
@@ -241,9 +252,8 @@ const newOrder = {
 
   useEffect(() => {
     fetchBocadillos();
-  
-
     fetchUsers();
+    fetchUserOrders();
   }, []);
 
   return (
@@ -273,6 +283,7 @@ const newOrder = {
         activeBocadillos,
         toggleBocadilloStatus,
         makeOrder,
+        userOrders,
 
         
         
