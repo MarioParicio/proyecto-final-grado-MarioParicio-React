@@ -8,7 +8,7 @@ export default function Categoria({categoria}) {
   onClick={() =>handleClickCategoria(id)}
   >
     
-    <img className="w-14" src={`../img/icono_${icono}.png`} alt={nombre}/>
+    <img className="w-14" src={`../img/${icono}.png`} alt={nombre}/>
     <p className="text-lg font-bold cursor-pointer truncate" 
            >
             
