@@ -6,7 +6,7 @@ export default function ModalProducto() {
     const { bocadillo, handleClickModal, handleAgregarPedido, pedido } = useBocateria();
     const [cantidad, setCantidad] = useState(1);
     const [edicion, setEdicion] = useState(false);
-    const [nota, setNota] = useState(""); // To store the note
+    const [nota, setNota] = useState(bocadillo.nota); // To store the note
 
     
 
