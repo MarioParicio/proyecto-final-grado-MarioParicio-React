@@ -1,6 +1,8 @@
 import React from 'react'
 import useBocateria from "../hooks/useBocateria";
 import { formatearDinero } from '../helpers';
+import { FaCheck } from 'react-icons/fa'; 
+
 export default function Ordenes() {
     const {orders, handleToggleOrderStatus, selectedFilter, filteredOrders, setSelectedFilter, selectedStatus, setSelectedStatus} = useBocateria()
 
@@ -75,22 +77,22 @@ export default function Ordenes() {
                             <span className='font-normal '>{order.email}
                             </span>
                         </p>
-                        <p className='text-lg font-bold text-amber-600'>
-                            Total a pagar: {''}
-                           <span className='font-normal text-slate-600'>{formatearDinero( order.total)}
-
-                            </span>
-                        </p>
-                        <button
-            type='button'
-            className={`px-5 py-2 rounded text-white font-bold uppercase text-center w-full cursor-pointer 
-                        ${order.estado === 'process' ? 'bg-indigo-600 hover:bg-indigo-800' : 'bg-green-600 hover:bg-green-800'}`}
-            onClick={() => handleToggleOrderStatus(order.id)}
-        >
-            {order.estado === 'process' ? 'En proceso' : 'Entregado'}
-        </button>
-                    </div>  
-                ))}
+                       <p className='text-lg font-bold text-amber-600'>
+                        {order.paid ? 
+                            <><span className=' text-green-600 font-bold'>Pagado </span><FaCheck color="green" /></> :
+                            <>Total a pagar: <span className='font-normal text-slate-600'>{formatearDinero(order.total)}</span></>
+                        }
+                    </p>
+                    <button
+                        type='button'
+                        className={`px-5 py-2 rounded text-white font-bold uppercase text-center w-full cursor-pointer 
+                            ${order.estado === 'process' ? 'bg-indigo-600 hover:bg-indigo-800' : 'bg-green-600 hover:bg-green-800'}`}
+                        onClick={() => handleToggleOrderStatus(order.id)}
+                    >
+                        {order.estado === 'process' ? 'En proceso' : 'Entregado'}
+                    </button>
+                </div>  
+            ))}
             </div>
         </div>
     )

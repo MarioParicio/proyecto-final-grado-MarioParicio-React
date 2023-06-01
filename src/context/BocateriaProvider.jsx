@@ -20,25 +20,26 @@ const BocateriaProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
   const [users, setUsers] = useState([]);
   const [userOrders, setUserOrders] = useState([]);
-
-
-
+  const [userSelectedFilter, setUserSelectedFilter] = useState("Todas");
   const [selectedFilter, setSelectedFilter] = useState("Todas");
-
   const [selectedStatus, setSelectedStatus] = useState("");
+  
+  const filteredOrders = orders.filter((order) => {
+      const orderDate = new Date(order.dateOrder);
+      return (
+        (selectedFilter === "Hoy" ? orderDate.toDateString() === today.toDateString() : true) &&
+        (selectedFilter === "Este mes" ? orderDate >= firstDayOfMonth : true) &&
+        (selectedStatus === "Entregados" ? order.estado === "completed" : true) &&
+        (selectedStatus === "En proceso" ? order.estado === "process" : true)
+      );
+    });
+
+
 
   const today = new Date();
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
-  const filteredOrders = orders.filter((order) => {
-    const orderDate = new Date(order.dateOrder);
-    return (
-      (selectedFilter === "Hoy" ? orderDate.toDateString() === today.toDateString() : true) &&
-      (selectedFilter === "Este mes" ? orderDate >= firstDayOfMonth : true) &&
-      (selectedStatus === "Entregados" ? order.estado === "completed" : true) &&
-      (selectedStatus === "En proceso" ? order.estado === "process" : true)
-    );
-  });
+
   const makeOrder = async () => {
     console.log(pedido);
 
@@ -62,6 +63,7 @@ if (!userDoc.exists) {
   console.error('El documento del usuario no existe.');
   return;
 }
+
 
 // Obtener los datos del documento
 const userData = userDoc.data();
@@ -89,7 +91,6 @@ const newOrder = {
 
 
 
-
       };
       
       // Save the new order to Firestore
@@ -113,6 +114,8 @@ const newOrder = {
     if (userId) {
       const ordersCollection = firestore.collection("orders");
       const snapshot = await ordersCollection.where("idClient", "==", userId).get();
+      //Map the document data to order by date
+
       const ordersList = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -122,6 +125,14 @@ const newOrder = {
       console.error('No hay un usuario autenticado');
     }
   };
+
+  const filteredUserOrders = userOrders.filter((order) => {
+    const orderDate = new Date(order.dateOrder);
+    return (
+      (userSelectedFilter === "Hoy" ? orderDate.toDateString() === today.toDateString() : true) &&
+      (userSelectedFilter === "Este mes" ? orderDate >= firstDayOfMonth : true)
+    );
+  });
 
 
 
@@ -142,8 +153,9 @@ const newOrder = {
 
     const orderData = orderDoc.data();
     const newStatus = orderData.estado === "process" ? "completed" : "process";
+
     if (pedido.idOrder === idOrder) {
-      setPedido({...pedido, estado: newStatus});
+      setPedido({...pedido,estado: newStatus});
     }
     await orderDocRef.update({
       estado: newStatus,
@@ -248,24 +260,23 @@ const newOrder = {
     setTotal(nuevoTotal);
   }, [pedido]);
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      const ordersCollection = firestore.collection("orders");
-      const snapshot = await ordersCollection.get();
-      const ordersList = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setOrders(ordersList);
-    };
+// Inside the BocateriaProvider component
+const fetchOrders = async () => {
+  const ordersCollection = firestore.collection("orders").orderBy("dateOrder", "desc");
+  const snapshot = await ordersCollection.get();
+  const ordersList = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  setOrders(ordersList);
+};
 
-    fetchOrders();
-    // wait 5 sec
-    setTimeout(() => {
-      fetchUserOrders();
-    }, 500);
-
-  }, []);
+useEffect(() => {
+  fetchOrders();
+  setTimeout(() => {
+    fetchUserOrders();
+  }, 500);
+}, []);
 
   useEffect(() => {
     fetchBocadillos();
@@ -302,6 +313,10 @@ const newOrder = {
         toggleBocadilloStatus,
         makeOrder,
         userOrders,
+        filteredUserOrders,
+        userSelectedFilter,
+        setUserSelectedFilter,
+
      
         
 

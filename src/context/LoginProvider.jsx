@@ -83,6 +83,7 @@ const  LoginContext = createContext();
         return () => unsubscribe();
       }, []);
       if (loading) {
+        
         return  <div className="flex items-center justify-center min-h-screen">
         <div className="animate-spin h-32 w-32 border-t-4 border-green-500 rounded-full"></div>
     </div> // Or return null if you don't want to render anything
