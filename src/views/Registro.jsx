@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 export default function Registro() {
 
-  const { register } = useLogin(); // Get the login function from the useLogin hook
+  const { register, loginWithGoogle } = useLogin(); // Get the login function from the useLogin hook
 
 
   const [name, setName] = useState("");
@@ -42,6 +42,16 @@ export default function Registro() {
       
     } catch (error) {
       console.error(error);
+    }
+  };
+  const handleGoogleLogin = async (e) => {
+    e.preventDefault();
+    
+    const success = await loginWithGoogle();
+    
+    if (success) {
+      navigate("/");
+      console.log("Inicio de sesión exitoso");
     }
   };
 
@@ -137,10 +147,22 @@ export default function Registro() {
             className="bg-red-500 hover:bg-red-600 w-full p-3 text-white uppercase font-bold cursor-pointer"
           />
         </form>
+        <button
+        onClick={handleGoogleLogin}
+        className="mt-4 flex justify-center items-center bg-blue-600 hover:bg-blue-700 w-full p-3 text-white uppercase font-bold cursor-pointer"
+      >
+        <img 
+          src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" 
+          alt="Google logo" 
+          className="h-5 w-5 mr-2"
+        />
+  Accede con Google
+</button>
       <nav className="mt-10 flex justify-center">
 
       <Link to="/auth/login" className="text-blue-500 hover:text-blue-600 font-bold">¿Ya tienes cuenta? Inicia sesión
       </Link>
+
 
 </nav>
     </div>
