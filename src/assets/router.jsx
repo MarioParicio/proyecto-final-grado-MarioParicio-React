@@ -25,8 +25,11 @@ const router = createBrowserRouter([
         element: <PrivateRoute><Inicio /></PrivateRoute>,
       },
       {
+
         path: '/mis-pedidos',
         element: <PrivateRoute><MisOrdenes /></PrivateRoute>,
+
+
       }
       // Asegúrate de utilizar `PrivateRoute` para todas las demás rutas que quieras proteger.
     ],

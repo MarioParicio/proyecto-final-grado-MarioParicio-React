@@ -110,6 +110,7 @@ const newOrder = {
     }
   };
   const fetchUserOrders = async () => {
+
     const userId = firebase.auth().currentUser?.uid;
     if (userId) {
       const ordersCollection = firestore.collection("orders");
@@ -133,6 +134,7 @@ const newOrder = {
       (userSelectedFilter === "Este mes" ? orderDate >= firstDayOfMonth : true)
     );
   });
+
 
 
 
@@ -280,9 +282,11 @@ useEffect(() => {
 
   useEffect(() => {
     fetchBocadillos();
+
     fetchUsers();
 
     
+
   }, []);
 
   return (
@@ -312,6 +316,7 @@ useEffect(() => {
         activeBocadillos,
         toggleBocadilloStatus,
         makeOrder,
+
         userOrders,
         filteredUserOrders,
         userSelectedFilter,
@@ -319,6 +324,7 @@ useEffect(() => {
 
      
         
+
 
         
         
