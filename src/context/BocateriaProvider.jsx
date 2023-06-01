@@ -109,6 +109,7 @@ const newOrder = {
     }
   };
   const fetchUserOrders = async () => {
+
     const userId = firebase.auth().currentUser?.uid;
     if (userId) {
       const ordersCollection = firestore.collection("orders");
@@ -122,6 +123,7 @@ const newOrder = {
       console.error('No hay un usuario autenticado');
     }
   };
+
 
 
 
@@ -269,9 +271,11 @@ const newOrder = {
 
   useEffect(() => {
     fetchBocadillos();
+
     fetchUsers();
 
     
+
   }, []);
 
   return (
@@ -301,9 +305,11 @@ const newOrder = {
         activeBocadillos,
         toggleBocadilloStatus,
         makeOrder,
+
         userOrders,
      
         
+
 
         
         
