@@ -23,7 +23,8 @@ const BocateriaProvider = ({ children }) => {
   const [userSelectedFilter, setUserSelectedFilter] = useState("Todas");
   const [selectedFilter, setSelectedFilter] = useState("Todas");
   const [selectedStatus, setSelectedStatus] = useState("");
-  
+  const today = new Date();
+  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
   const filteredOrders = orders.filter((order) => {
       const orderDate = new Date(order.dateOrder);
       return (
@@ -36,8 +37,7 @@ const BocateriaProvider = ({ children }) => {
 
 
 
-  const today = new Date();
-  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
 
 
   const makeOrder = async () => {
@@ -277,7 +277,7 @@ useEffect(() => {
   fetchOrders();
   setTimeout(() => {
     fetchUserOrders();
-  }, 500);
+  }, 1000);
 }, []);
 
   useEffect(() => {
@@ -316,6 +316,7 @@ useEffect(() => {
         activeBocadillos,
         toggleBocadilloStatus,
         makeOrder,
+        fetchUserOrders,
 
         userOrders,
         filteredUserOrders,

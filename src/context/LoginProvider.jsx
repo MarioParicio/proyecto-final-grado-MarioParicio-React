@@ -3,6 +3,7 @@ import { auth,  firestore  } from '../firebase'; // Import your Firebase auth in
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import firebase from "firebase/compat/app";
+import useBocateria from "../hooks/useBocateria";
 
 
 
@@ -14,6 +15,7 @@ const  LoginContext = createContext();
 
 
     const LoginProvider = ({children }) => {
+
     const [role, setRole] = useState(null);
     const [currentUser, setCurrentUser] = useState(null);
     const [loading, setLoading] = useState(true);

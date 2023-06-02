@@ -6,7 +6,7 @@ export default function Resumen() {
   const comprobarPedido = () =>pedido.length === 0
 
   return (
-    <aside className="w-72 h-screen overflow-y-scroll p-5">
+    <aside className="w-72 h-screen overflow-y-scroll p-5 scrollbar-hide">
       <h1 className="text-4xl font-black">
         Mi pedido
         </h1>      

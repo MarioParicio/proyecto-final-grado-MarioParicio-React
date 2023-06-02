@@ -32,7 +32,7 @@ export default function MisOrdenes() {
                 </select>
             </div>
             
-            <div className='grid grid-cols-2 gap-5'>
+            <div className='grid grid-cols-1 gap-5'>
                 {sortedOrders.map(order => (
                     <div key={order.id} className='p-5 bg-white shadow space-y-2 border-b '>
                         <p className='text-xl font-bold text-slate-600'>Contenido del pedido:</p> 
