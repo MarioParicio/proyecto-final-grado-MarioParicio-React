@@ -1,3 +1,3 @@
 {
-  "rewrites": [{ "source": "/(.)", "destination": "paota" }]
+  "routes": [{ "src": "/[^.]+", "dest": "/", "status": 200 }]
 }
