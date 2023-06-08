@@ -35,16 +35,27 @@ const  LoginContext = createContext();
     const loginWithGoogle = async () => {
         try {
           const result = await auth.signInWithPopup(googleProvider);
-          const { user } = result;
+          const credential = result.credential;
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          var token = credential.accessToken;
+          // The signed-in user info.
+          var user = result.user;
+          console.log(user);
+
           if (user) {
             const userRef = firestore.collection('users').doc(user.uid);
             const doc = await userRef.get();
             const userData = doc.data();
+            try {
             if (userData.state === 'inactive') {
                 toast.error('Este usuario está desactivado. Comuníquese con el administrador.');
               return false;
             }
+            } catch (error) {
+                console.log(error);
+            }
             toast.success("Inicio de sesión exitoso con Google");
+            console.log(user);
             await addUserToFirestore(user.uid, user.email, "user", user.displayName); 
             return true;
           }
