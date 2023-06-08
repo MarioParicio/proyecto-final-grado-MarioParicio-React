@@ -37,7 +37,7 @@ export default function Registro() {
       const success = await register(email, password, name);
       if (success) {
         navigate("/"); // Navigate to the home page
-        consol.log("Inicio de sesión exitoso");
+   
       }
       
     } catch (error) {

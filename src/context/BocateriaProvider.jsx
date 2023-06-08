@@ -67,21 +67,21 @@ if (!userDoc.exists) {
 
 // Obtener los datos del documento
 const userData = userDoc.data();
-
+const nota = userData.nota == null ? "" : userData.nota;
 // Prepare new order data
 const newOrder = {
          // Array of bocadillos in the order
         bocadillos_order : pedido.map((bocadillo) => ({
           bocadilloName: bocadillo.name,
           cantidad: bocadillo.cantidad,
-          nota: bocadillo.nota,
+          nota: nota,
           uid: bocadillo.id,
         })),
         //2023-05-27T14:39:56.348672
-        dateOrder: fechaComoISO, // Cambio aquí
+        dateOrder: fechaComoISO, 
         email: firebase.auth().currentUser.email,
         estado: "process",
-        nameClient: userData.name, // Cambio aquí
+        nameClient: userData.name, 
         idClient : firebase.auth().currentUser.uid,
         idOrder: firebase.firestore().collection('orders').doc().id,
         paid : false,
@@ -92,6 +92,7 @@ const newOrder = {
 
 
       };
+      console.log(newOrder);
       
       // Save the new order to Firestore
       await firestore.collection('orders').doc(newOrder.idOrder).set(newOrder);
