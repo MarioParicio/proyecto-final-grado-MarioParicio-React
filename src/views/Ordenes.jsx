@@ -91,7 +91,7 @@ export default function Ordenes() {
                 </div>  
             ))}
         </div>
-    )
+    
     </div>
     )
 }
