@@ -9,12 +9,17 @@ export default function Usuarios() {
 
     // Ordenar los usuarios por el último log
     const sortedUsers = [...users].sort((a, b) => {
-        const aLastLogTime = a.logs[a.logs.length - 1]?.loginTime?.seconds;
-        const bLastLogTime = b.logs[b.logs.length - 1]?.loginTime?.seconds;
-
+        const aLastLogTime = a.logs && a.logs.length > 0 && a.logs[a.logs.length - 1]?.loginTime?.seconds;
+        const bLastLogTime = b.logs && b.logs.length > 0 && b.logs[b.logs.length - 1]?.loginTime?.seconds;
+    
+        // Handle the case where one or both times are undefined
+        if (aLastLogTime === undefined && bLastLogTime === undefined) return 0;
+        if (aLastLogTime === undefined) return 1;
+        if (bLastLogTime === undefined) return -1;
+    
         return bLastLogTime - aLastLogTime;
     });
-
+ 
     return (
         <div>
             <h1 className='text-4xl font-bold'>Usuarios</h1>
@@ -35,7 +40,7 @@ export default function Usuarios() {
                         <p className='text-xl font-bold text-slate-600'>Último Log:</p>
                         {user.logs.length > 0 && (
                             <div className='border-b border-b-slate-200 last-of-type:border-none py-4'>
-                                <p className='text-sm'>Login Time: {new Date(user.logs[user.logs.length - 1].loginTime.seconds * 1000).toLocaleString()}</p>
+                               <p className='text-sm'>Login Time: {user.logs && user.logs.length > 0 && user.logs[user.logs.length - 1]?.loginTime ? new Date(user.logs[user.logs.length - 1].loginTime.seconds * 1000).toLocaleString() : "N/A"}</p>
                                 <p className='text-sm'>Platform: {user.logs[user.logs.length - 1].platform}</p>
                             </div>
                         )}

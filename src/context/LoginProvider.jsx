@@ -20,7 +20,7 @@ const  LoginContext = createContext();
     const [currentUser, setCurrentUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState([]);
-    const googleProvider = new firebase.auth.GoogleAuthProvider();
+
 
     const toggleUserState = async (uid, newState) => {
         const userRef = firestore.collection('users').doc(uid);
@@ -34,7 +34,11 @@ const  LoginContext = createContext();
 
     const loginWithGoogle = async () => {
         try {
-          const result = await auth.signInWithPopup(googleProvider);
+          var provider = new firebase.auth.OAuthProvider('google.com');
+         provider.addScope('profile');
+        provider.addScope('email');
+          const result = await auth.signInWithPopup(provider);
+          
           const credential = result.credential;
           // This gives you a Google Access Token. You can use it to access the Google API.
           var token = credential.accessToken;
@@ -179,7 +183,8 @@ const  LoginContext = createContext();
                 login,
                 currentUser, 
                 logout,
-                role, 
+                role,
+                  
                 loginWithGoogle,
                 users,
                 toggleUserState,
