@@ -83,7 +83,6 @@ const newOrder = {
         estado: "process",
         nameClient: userData.name, 
         idClient : firebase.auth().currentUser.uid,
-        idOrder: firebase.firestore().collection('orders').doc().id,
         paid : false,
         total: total,
       
