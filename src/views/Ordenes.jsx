@@ -50,7 +50,7 @@ export default function Ordenes() {
                                 key={bocadillo.uid}
                                 className='border-b  border-b-slate-200  last-of-type:border-nome  py-4'
                                 >
-                                    <p className='text-sm'>ID: {bocadillo.uid} </p> 
+                               
                                     <p className='text-base font-bold'>Nombre: {bocadillo.bocadilloName}</p> 
                                     <p className='font-bold'>
                                         Cantidad: {bocadillo.cantidad}

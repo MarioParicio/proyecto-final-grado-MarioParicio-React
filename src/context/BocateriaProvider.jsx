@@ -86,7 +86,7 @@ const newOrder = {
         idOrder: firebase.firestore().collection('orders').doc().id,
         paid : false,
         total: total,
-        uid: firebase.firestore().collection('orders').doc().id,
+      
 
 
 
