@@ -287,10 +287,10 @@ const fetchOrders = async () => {
 
 useEffect(() => {
   fetchOrders();
-  fetchFilteredOrders();
+
   setTimeout(() => {
     fetchUserOrders();
-  }, 60000);
+  }, 3000);
 }, [ users]);
 
   useEffect(() => {
