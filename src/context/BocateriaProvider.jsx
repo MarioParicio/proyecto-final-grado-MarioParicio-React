@@ -290,8 +290,8 @@ useEffect(() => {
   fetchFilteredOrders();
   setTimeout(() => {
     fetchUserOrders();
-  }, 3000);
-}, [ orders]);
+  }, 60000);
+}, [ users]);
 
   useEffect(() => {
     fetchBocadillos();
