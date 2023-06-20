@@ -192,6 +192,18 @@ const newOrder = {
     }));
     setUsers(usersList);
   };
+  const fetchFilteredOrders= () =>{
+    const filteredOrders = orders.filter((order) => {
+      const orderDate = new Date(order.dateOrder);
+      return (
+        (selectedFilter === "Hoy" ? orderDate.toDateString() === today.toDateString() : true) &&
+        (selectedFilter === "Este mes" ? orderDate >= firstDayOfMonth : true) &&
+        (selectedStatus === "Entregados" ? order.estado === "completed" : true) &&
+        (selectedStatus === "En proceso" ? order.estado === "process" : true)
+      );
+    }
+    );
+  }
 
   const handleClickCategoria = (id) => {
     const categoria = categorias.filter((categoria) => categoria.id === id)[0];
@@ -275,10 +287,11 @@ const fetchOrders = async () => {
 
 useEffect(() => {
   fetchOrders();
+  fetchFilteredOrders();
   setTimeout(() => {
     fetchUserOrders();
-  }, 1000);
-}, []);
+  }, 3000);
+}, [ orders]);
 
   useEffect(() => {
     fetchBocadillos();
